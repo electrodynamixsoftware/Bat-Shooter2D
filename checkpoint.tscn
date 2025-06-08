@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://dpp586rxo524x"]
+
+[ext_resource type="Script" path="res://checkpoint.gd" id="1_nndkv"]
+[ext_resource type="Texture2D" uid="uid://b2y0y38ayncla" path="res://assets and templates/Props/Checkpoint.png" id="1_uwrt8"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_72mft"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_uwrt8")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_adlwh"]
+
+[node name="Checkpoint" type="Area2D"]
+collision_mask = 2
+script = ExtResource("1_nndkv")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_72mft")
+frame_progress = 0.716328
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_adlwh")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

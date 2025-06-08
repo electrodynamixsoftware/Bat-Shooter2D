@@ -1,0 +1,91 @@
+[gd_scene load_steps=12 format=3 uid="uid://beqq6cs4hw0o6"]
+
+[ext_resource type="Script" path="res://Scripts/player.gd" id="1_k63km"]
+[ext_resource type="Texture2D" uid="uid://54furj5lgxfw" path="res://assets and templates/Characters/Player.png" id="1_wdfgt"]
+[ext_resource type="AudioStream" uid="uid://c4umhg3gc2r6j" path="res://assets and templates/Sounds/Jump.wav" id="3_v3uyy"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_burci"]
+atlas = ExtResource("1_wdfgt")
+region = Rect2(48, 0, 47, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f8bvw"]
+atlas = ExtResource("1_wdfgt")
+region = Rect2(48, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7i0bw"]
+atlas = ExtResource("1_wdfgt")
+region = Rect2(0, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rvi20"]
+atlas = ExtResource("1_wdfgt")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_avmoe"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_burci")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f8bvw")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7i0bw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rvi20")
+}],
+"loop": true,
+"name": &"running",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"shooting",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jbc46"]
+radius = 6.40312
+
+[sub_resource type="Animation" id="Animation_x11dw"]
+resource_name = "jump"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_f8cub"]
+_data = {
+"jump": SubResource("Animation_x11dw")
+}
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+script = ExtResource("1_k63km")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 5
+sprite_frames = SubResource("SpriteFrames_avmoe")
+animation = &"jump"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 5)
+shape = SubResource("CircleShape2D_jbc46")
+
+[node name="Jump" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_v3uyy")
+autoplay = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Jump")
+libraries = {
+"": SubResource("AnimationLibrary_f8cub")
+}
